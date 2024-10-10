@@ -727,7 +727,19 @@ See basic structure
 
 ## print.calibration
 
-Starts calibration process.
+Starts calibration process.  
+The `option` value must be passed as an integer, but represents the value of a bitmask with the following structure:
+```text
+1 | Micro Lidar Calibration
+2 | Bed Leveling
+4 | Resonance Frequency Identification
+8 | Motor Noise Calibration
+
+15 = 1111 = all options
+10 = 1010 = bed leveling and motor noise calibration
+ 6 = 0110 = bed leveling and resonance frequency identification
+etc.
+```
 
 **Note:** Some printers might need `gcode_file` with `/usr/etc/print/auto_cali_for_user.gcode` instead!
 
@@ -737,14 +749,24 @@ Starts calibration process.
 {
     "print": {
         "sequence_id": "0",
-        "command": "calibration"
+        "command": "calibration",
+        "option": 15 // mandatory, see above for meaning
     }
 }
 ```
 
 **Report**
 
-TODO
+```json
+{
+    "print": {
+        "command": "calibration",
+        "option": 15,
+        "result": "success",
+        "sequence_id": "0"
+    }
+}
+```
 
 ## print.unload_filament
 
